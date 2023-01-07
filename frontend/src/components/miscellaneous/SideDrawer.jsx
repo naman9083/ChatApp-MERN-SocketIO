@@ -30,7 +30,6 @@ import axios from "axios";
 import ChatsLoading from "./ChatLoading";
 import UserListItem from "./UserListItem";
 
-
 const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -38,44 +37,43 @@ const SideDrawer = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
-  const {user,setSelectedChat,chats, setChats} = ChatState();
+  const { user, setSelectedChat, chats, setChats } = ChatState();
   const logout = () => {
     localStorage.removeItem("userInfo");
     window.location.reload();
   };
-  const handleSearch = async (element) => {
-    setSearch(element.target.value);
-    if(element.target.value.length === 0) {
-    return toast({
-      title: "Please enter a name",
-      status: "warning",
-      duration: 2000,
-      isClosable: true,
-      position: "top-left",
-    });
-    
-  }
-  try {
-    setLoading(true);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-    const { data } = await axios.get(`/api/user?search=${search}`, config);
-    setLoading(false);
-    setSearchResult(data); 
-  } catch (error) {
-    return toast({
-      title: "Something went wrong",
-      description: 'Please try again later',
-      status: "error",
-      duration: 2000,
-      isClosable: true,
-      position: "bottom-left",
-    });
+  const handleSearch = async () => {
+    if (search.length === 0) {
+      setSearchResult([]);
+      return toast({
+        title: "Please enter a valid name",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+        position: "top-left",
+      });
+    }
 
-  }
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {
+      return toast({
+        title: "Something went wrong",
+        description: "Please try again later",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
   };
 
   const accessChat = async (userId) => {
@@ -87,8 +85,8 @@ const SideDrawer = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post('/api/chat/',{userId}, config);
-      if(!chats.find(chat => chat._id === data._id)) {
+      const { data } = await axios.post("/api/chat/", { userId }, config);
+      if (!chats.find((chat) => chat._id === data._id)) {
         setChats([data, ...chats]);
       }
 
@@ -98,7 +96,7 @@ const SideDrawer = () => {
     } catch (error) {
       return toast({
         title: "Something went wrong",
-        description: 'Please try again later',
+        description: "Please try again later",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -106,7 +104,6 @@ const SideDrawer = () => {
       });
     }
   };
-
 
   return (
     <div>
@@ -128,7 +125,7 @@ const SideDrawer = () => {
           >
             <Button
               variant="ghost"
-              onClick={ onOpen }
+              onClick={onOpen}
               style={{ border: "1px solid black" }}
               _hover={{ backgroundColor: "black", textColor: "white" }}
             >
@@ -139,7 +136,6 @@ const SideDrawer = () => {
             </Button>
           </Tooltip>
           <Text fontSize="4xl" color="black" fontWeight="900">
-            
             Tanz-A-Tive
           </Text>
           <div>
@@ -151,46 +147,64 @@ const SideDrawer = () => {
             </Menu>
             <Menu>
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                <Avatar size="sm" cursor="pointer" name={user.name} src={user.pic}></Avatar>
+                <Avatar
+                  size="sm"
+                  cursor="pointer"
+                  name={user.name}
+                  src={user.pic}
+                ></Avatar>
               </MenuButton>
               <MenuList>
                 <ProfileModel user={user}>
-
-                <MenuItem>My Profile</MenuItem>
+                  <MenuItem>My Profile</MenuItem>
                 </ProfileModel>
-                <MenuDivider/>
+                <MenuDivider />
                 <MenuItem onClick={logout}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </div>
         </HStack>
       </Box>
-      <Drawer placement="left" size="sm" isOpen={isOpen}  onClose={onClose} onOpen={onOpen}>
-        <DrawerOverlay/>
+      <Drawer
+        placement="left"
+        size="sm"
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+      >
+        <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton onClick={onclose}/>
+          <DrawerCloseButton onClick={onclose} />
           <DrawerHeader borderWidth="1px">Search Users</DrawerHeader>
           <DrawerBody>
             <Box d="flex" pb="2px" mb="5px">
               <HStack spacing="24px">
-              <Input placeholder="Search by username or email" value={search} mr={2} onChange={(e) => handleSearch(e)} />
-              <Button onClick={handleSearch}  colorScheme="blue">Go</Button>
+                <Input
+                  placeholder="Search by username or email"
+                  value={search}
+                  mr={2}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                <Button onClick={handleSearch} colorScheme="blue">
+                  Go
+                </Button>
               </HStack>
             </Box>
-            {loading?<ChatsLoading/>:
-            (searchResult?.map((user) => (
-              
-              <UserListItem user={user} key={user._id}  handleFunction={()=>accessChat}/>
-            )
-            )
-            )
-            }
-          {loadingChat && <Spinner ml="auto" display="flex"/>}
+            {loading ? (
+              <ChatsLoading />
+            ) : (
+              searchResult?.map((user) => (
+                <UserListItem
+                  user={user}
+                  key={user._id}
+                  handleFunction={() => accessChat(user._id)}
+                />
+              ))
+            )}
+            {loadingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
-          
         </DrawerContent>
       </Drawer>
-
     </div>
   );
 };
