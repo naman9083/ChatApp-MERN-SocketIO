@@ -16,6 +16,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Spinner,
   Text,
   Tooltip,
   useDisclosure,
@@ -37,7 +38,7 @@ const SideDrawer = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
-  const {user} = ChatState();
+  const {user,setSelectedChat,chats, setChats} = ChatState();
   const logout = () => {
     localStorage.removeItem("userInfo");
     window.location.reload();
@@ -77,19 +78,32 @@ const SideDrawer = () => {
   }
   };
 
-  const accessChat = async (user) => {
+  const accessChat = async (userId) => {
     try {
-      setLoading(true);
+      setLoadingChat(true);
       const config = {
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`/api/chat/${user._id}`, config);
-      setLoading(false);
-      console.log(data);
-    } catch (error) {
+      const { data } = await axios.post('/api/chat/',{userId}, config);
+      if(!chats.find(chat => chat._id === data._id)) {
+        setChats([data, ...chats]);
+      }
 
+      setSelectedChat(data);
+      setLoadingChat(false);
+      onClose();
+    } catch (error) {
+      return toast({
+        title: "Something went wrong",
+        description: 'Please try again later',
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "bottom-left",
+      });
     }
   };
 
@@ -171,14 +185,9 @@ const SideDrawer = () => {
             )
             )
             }
-
+          {loadingChat && <Spinner ml="auto" display="flex"/>}
           </DrawerBody>
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={logout}>
-              Logout
-            </Button>
-            <Button colorScheme="blue">Save</Button>
-          </DrawerFooter>
+          
         </DrawerContent>
       </Drawer>
 
