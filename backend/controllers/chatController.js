@@ -11,7 +11,7 @@ const accessChat = asyncHandler(async (req, res) => {
     isGroupChat: false,
     $and: [
       { users: { $elemMatch: { $eq: req.user._id } } },
-      { users: { $elemMatch: { $eq: userId._id } } },
+      { users: { $elemMatch: { $eq: userId} } },
     ],
   })
     .populate("users", "-password")
@@ -35,7 +35,7 @@ const accessChat = asyncHandler(async (req, res) => {
         "users",
         "-password"
       );
-      res.status(200).send(FullChat);
+      res.status(200).json(FullChat);
     } catch (error) {
       res.status(400).send(error);
     }
@@ -52,7 +52,7 @@ const fetchChats = asyncHandler(async (req, res) => {
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
       .then(async (chats) => {
-        const fullChats = await User.populate(chats, {
+        fullChats = await User.populate(chats, {
           path: "latestMessage.sender",
           select: "-password",
         });

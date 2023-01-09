@@ -6,7 +6,6 @@ import {
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   HStack,
@@ -23,13 +22,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import NotificationBadge, { Effect } from "react-notification-badge";
 import React, { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import ProfileModel from "./ProfileModel";
 import axios from "axios";
 import ChatsLoading from "./ChatLoading";
-import UserListItem from "./UserListItem";
-
+import UserListItem from "../UserItems/UserListItem";
+import { getSender } from "../../config/ChatsLogics";
 const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -37,7 +37,15 @@ const SideDrawer = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const {
+    user,
+    setSelectedChat,
+    chats,
+    setChats,
+    notification,
+    setNotification,
+  } = ChatState();
+
   const logout = () => {
     localStorage.removeItem("userInfo");
     window.location.reload();
@@ -135,15 +143,45 @@ const SideDrawer = () => {
               </Text>
             </Button>
           </Tooltip>
-          <Text fontSize="4xl" color="black" fontWeight="900">
+          <Text
+            fontSize={{ base: "15px", md: "30px", sm: "20px" }}
+            color="black"
+            display={{ base: "none", md: "flex" }}
+            fontWeight="900"
+          >
             Tanz-A-Tive
           </Text>
           <div>
             <Menu>
               <MenuButton p={1}>
+              <NotificationBadge count={notification.length} effect={Effect.scale}/>
                 <BellIcon fontSize="2xl" m={1} />
               </MenuButton>
-              {/* <MenuList></MenuList> */}
+              <MenuList pl={2} border="1px" borderColor="red">
+                
+                {!notification.length
+                  ? "No New Messages"
+                  : notification.map((m) => {
+                      return (
+                        <MenuItem
+                          key={m._id}
+                          onClick={() => {
+                            setSelectedChat(m.chat);
+                            setNotification(
+                              notification.filter((n) => n !== m)
+                            );
+                          }}
+                        >
+                          {m.chat.isGroupChat
+                            ? `New message in ${m.chat.chatName}`
+                            : `New Message From ${getSender(
+                                user,
+                                m.chat.users
+                              )}`}
+                        </MenuItem>
+                      );
+                    })}
+              </MenuList>
             </Menu>
             <Menu>
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>

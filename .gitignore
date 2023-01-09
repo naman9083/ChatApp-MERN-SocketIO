@@ -13,7 +13,7 @@
 
 # misc
 .DS_Store
-/vars
+# /vars
 .env
 .env.local
 .env.development.local

@@ -8,3 +8,22 @@
   font-family: 'Work Sans';
   color: #000;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.281);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@media screen and (max-width: 768px) {
+  .App {
+    background-image: url('./assets/background.jpg');
+  background-size: cover;
+  background-position: center;
+  }
+}
+  

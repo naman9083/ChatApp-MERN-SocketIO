@@ -27,9 +27,9 @@ const ProfileModel = ({ user, children }) => {
       )}
       <Modal size="lg" isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent h="410px" >
+        <ModalContent  >
           <Center>
-            <ModalHeader fontSize="40px">{user.name}</ModalHeader>
+            <ModalHeader fontSize="40px" width="100%" style={{whiteSpace:"nowrap"}} >{user.name}</ModalHeader>
           </Center>
           <ModalCloseButton />
           <ModalBody display="flex"
