@@ -19,7 +19,8 @@ import ScrollableChat from "./UserItems/ScrollableChat";
 import animationData from "../animations/typing.json";
 import io from "socket.io-client";
 import "./UserItems/styles.css";
-const ENDPOINT = "http://localhost:5000";
+// const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://tanz-a-tive-chatting-app.onrender.com";
 var socket, selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
