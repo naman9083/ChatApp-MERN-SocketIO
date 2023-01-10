@@ -40,7 +40,7 @@ const ScrollableChat = ({ messages }) => {
               marginBottom: 5,
               width: "auto",
               maxWidth: "50%",
-              minWidth: "15%",
+              minWidth: "10%",
               whiteSpace: "pre-wrap",
               overflowX: "wrap",
               borderRadius: "10px",
