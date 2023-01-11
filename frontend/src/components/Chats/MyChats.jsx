@@ -57,20 +57,22 @@ const MyChats = ({ fetchAgain }) => {
     >
       <Box
         display="flex"
-        flexDir={{ base: "column", md: "row" }}
+        flexDir={{base:"column", lg: "row", sm: "column",md:"column" }}
+        whiteSpace="nowrap"
         pb={3}
         px={3}
         w="100%"
         alignItems="center"
-        fontSize={{ base: "18px", md: "30px" }}
+        
         justifyContent="space-between"
       >
-        My Chats
+        <Text fontSize={{ base: "20px", md: "15px", lg: "17px" }}>My Chats</Text>
         <GroupChatModal>
           <Button
             display="flex"
+            // width={{ base: "40vw", sm: "30vw",md:"12vw",lg :"10vw" }}
             mt={{ base: "10px", md: "0px" }}
-            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            fontSize={{ base: "17px", md: "13px", lg: "12px" }}
             rightIcon={<AddIcon />}
             colorScheme="blue"
           >

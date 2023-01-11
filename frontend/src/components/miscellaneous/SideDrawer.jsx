@@ -50,16 +50,12 @@ const SideDrawer = () => {
     localStorage.removeItem("userInfo");
     window.location.reload();
   };
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    setSearch(e.target.value);
+    setSearchResult([]);
     if (search.length === 0) {
       setSearchResult([]);
-      return toast({
-        title: "Please enter a valid name",
-        status: "warning",
-        duration: 2000,
-        isClosable: true,
-        position: "top-left",
-      });
+      return;
     }
 
     try {
@@ -221,7 +217,7 @@ const SideDrawer = () => {
                   placeholder="Search by username or email"
                   value={search}
                   mr={2}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => handleSearch(e)}
                 />
                 <Button onClick={handleSearch} colorScheme="blue">
                   Go

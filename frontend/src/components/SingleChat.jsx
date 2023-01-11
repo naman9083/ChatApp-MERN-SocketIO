@@ -227,7 +227,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             justifyContent="flex-end"
             mx={5}
             alignItems="flex-start"
-            height={{ base: "75vh", md: "70vh", lg: "70vh", sm: "70vh" }}
+            height={{ base: "70vh", md: "70vh", lg: "70vh", sm: "70vh" }}
             my={3}
             p={3}
             borderRadius="lg"
