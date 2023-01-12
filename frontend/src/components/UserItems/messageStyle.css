@@ -1,0 +1,36 @@
+.message{
+    margin-bottom: 5;
+    width: auto;
+    max-width: 60%;
+    min-width: 10%;
+    white-space: pre-wrap;
+    overflow-x: wrap;
+    border-radius: 10px;
+    padding: 5px 15px;
+    margin-bottom: 5;
+}
+@media (max-width: 768px) {
+    .message{
+        max-width: 80%;
+    }
+    
+}
+@media (max-width: 576px) {
+    .message{
+        max-width: 100%;
+    }
+    
+}
+@media (max-width: 375px) {
+    .message{
+        max-width: 100%;
+    }
+    
+}
+@media screen and (max-width: 320px) {
+    .message{
+        max-width: 100%;
+    }
+    
+}
+    

@@ -202,7 +202,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   {getSender(user, selectedChat.users)
                     .substring(0, 1)
                     .toUpperCase() +
-                    getSender(user, selectedChat.users).substring(1)}
+                    getSender(user, selectedChat.users).substring(1).split(" ")[0]}
                 </Text>
                 <ProfileModel user={getSenderFull(user, selectedChat.users)} />
               </Box>
@@ -228,7 +228,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             justifyContent="flex-end"
             mx={5}
             alignItems="flex-start"
-            height={{ base: "65vh", md: "70vh", lg: "70vh", sm: "70vh" }}
+            height="70vh"
             my={3}
             p={3}
             borderRadius="lg"

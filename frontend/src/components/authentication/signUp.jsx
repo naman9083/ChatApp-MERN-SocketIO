@@ -136,6 +136,7 @@ const Signup = () => {
         <FormLabel>Name</FormLabel>
         <Input
           placeholder="Enter Your Name"
+          maxLength={15}
           onChange={(e) => setName(e.target.value)}
         />
       </FormControl>

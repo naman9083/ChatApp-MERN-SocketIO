@@ -57,16 +57,17 @@ const MyChats = ({ fetchAgain }) => {
     >
       <Box
         display="flex"
-        flexDir={{base:"column", lg: "row", sm: "column",md:"column" }}
+        flexDir={{ base: "column", lg: "row", sm: "column", md: "column" }}
         whiteSpace="nowrap"
         pb={3}
         px={3}
         w="100%"
         alignItems="center"
-        
         justifyContent="space-between"
       >
-        <Text fontSize={{ base: "20px", md: "15px", lg: "17px" }}>My Chats</Text>
+        <Text fontSize={{ base: "20px", md: "15px", lg: "17px" }}>
+          My Chats
+        </Text>
         <GroupChatModal>
           <Button
             display="flex"
@@ -109,11 +110,7 @@ const MyChats = ({ fetchAgain }) => {
                     : chat.chatName}
                 </Text>
                 {chat.latestMessage && (
-                  <Box
-                    display="flex"
-         
-                    justifyContent="space-between"
-                  >
+                  <Box display="flex" justifyContent="space-between">
                     <Text
                       fontSize="xs"
                       display="flex"
@@ -127,11 +124,10 @@ const MyChats = ({ fetchAgain }) => {
                       </b>
 
                       {chat.latestMessage.content.length > 50
-                        ? chat.latestMessage.content.substring(0, 25) + "..."
+                        ? chat.latestMessage.content.substring(0, 20) + "..."
                         : chat.latestMessage.content}
                     </Text>
                     <Text fontWeight="extrabold" fontSize="10px">
-                      {" "}
                       {add7hrs(chat.latestMessage.createdAt)}
                     </Text>
                   </Box>

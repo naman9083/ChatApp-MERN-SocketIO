@@ -1,6 +1,6 @@
 import { Avatar, Text, Tooltip } from "@chakra-ui/react";
 import React from "react";
-
+import "./messageStyle.css"
 import {
   add7hrs,
   isLastMessage,
@@ -31,21 +31,14 @@ const ScrollableChat = ({ messages }) => {
           )}
           
           <span
+          className="message"
             style={{
               backgroundColor: `${
                 m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
               }`,
               marginLeft: isSameSenderMargin(messages, m, i, user._id),
               marginTop: isSameUser(messages, m, i, user._id) ? 4 : 10,
-              marginBottom: 5,
-              width: "auto",
-              maxWidth: "50%",
-              minWidth: "10%",
-              whiteSpace: "pre-wrap",
-              overflowX: "wrap",
-              borderRadius: "10px",
-              padding: "5px 15px",
-              
+             
              
             }}
           >

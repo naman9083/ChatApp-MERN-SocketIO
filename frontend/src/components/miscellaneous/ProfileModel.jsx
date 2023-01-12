@@ -25,11 +25,11 @@ const ProfileModel = ({ user, children }) => {
       ) : (
         <IconButton d={{ base: "flex" }} onClick={onOpen} icon={<ViewIcon />} />
       )}
-      <Modal size="lg" isCentered isOpen={isOpen} onClose={onClose}>
+      <Modal size={{base:"sm",md:"md",lg:"lg",sm:"sm",}} isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent  >
           <Center>
-            <ModalHeader fontSize="40px" width="100%" style={{whiteSpace:"nowrap"}} >{user.name}</ModalHeader>
+            <ModalHeader fontSize="30px" width="100%" style={{whiteSpace:"nowrap"}}  >{user.name}</ModalHeader>
           </Center>
           <ModalCloseButton />
           <ModalBody display="flex"
