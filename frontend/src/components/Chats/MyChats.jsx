@@ -12,6 +12,7 @@ const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
+  const [selectedChatId, setSelectedChatId] = useState("");
 
   const Toast = useToast();
 
@@ -98,26 +99,29 @@ const MyChats = ({ fetchAgain }) => {
               (chat) =>
                 chat.latestMessage && (
                   <Box
-                    onClick={() => setSelectedChat(chat)}
+                    onClick={() => {
+                      setSelectedChat(chat);
+                      setSelectedChatId(chat._id);
+
+                    }}
                     cursor="pointer"
-                    bg={selectedChat._id === chat._id ? "#38B2AC" : "#E8E8E8"}
-                    color={selectedChat._id === chat._id ? "white" : "black"}
+                    bg={selectedChatId === chat._id ? "#38B2AC" : "#E8E8E8"}
+                    color={selectedChatId === chat._id  ? "white" : "black"}
                     px={3}
                     py={2}
                     borderRadius="lg"
                     display="flex"
                     key={chat._id}
                   >
-                    <ProfileModel user = {getSenderFull(user, chat.users)}>
-                    <Avatar
-                      mt="5px"
-                      mr={4}
-                      
-                      size="sm"
-                      cursor="pointer"
-                      name={getSender(user, chat.users)}
-                      src={getSenderFull(user, chat.users).pic}
-                    />
+                    <ProfileModel user={getSenderFull(user, chat.users)}>
+                      <Avatar
+                        mt="5px"
+                        mr={4}
+                        size="sm"
+                        cursor="pointer"
+                        name={getSender(user, chat.users)}
+                        src={getSenderFull(user, chat.users).pic}
+                      />
                     </ProfileModel>
                     <div style={{ width: "100%" }}>
                       <Text>
