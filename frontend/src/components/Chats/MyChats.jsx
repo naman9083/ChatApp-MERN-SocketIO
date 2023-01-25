@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ChatLoading from "../miscellaneous/ChatLoading";
-import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
+import { Avatar, Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
 import { ChatState } from "../../Context/ChatProvider";
 import { AddIcon } from "@chakra-ui/icons";
-import { add7hrs, getSender } from "../../config/ChatsLogics";
+import { add7hrs, getSender, getSenderFull } from "../../config/ChatsLogics";
 import GroupChatModal from "../miscellaneous/GroupChatModal";
+import ProfileModel from "../miscellaneous/ProfileModel";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
@@ -93,47 +94,65 @@ const MyChats = ({ fetchAgain }) => {
       >
         {chats ? (
           <Stack overflowY="scroll">
-            {chats.map((chat) => (
-              <Box
-                onClick={() => setSelectedChat(chat)}
-                cursor="pointer"
-                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat === chat ? "white" : "black"}
-                px={3}
-                py={2}
-                borderRadius="lg"
-                key={chat._id}
-              >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
-                {chat.latestMessage && (
-                  <Box display="flex" justifyContent="space-between">
-                    <Text
-                      fontSize="xs"
-                      display="flex"
-                      justifyContent="flex-start"
-                    >
-                      <b>
-                        {chat.latestMessage.sender._id !== user._id
-                          ? chat.latestMessage.sender.name.split(" ")[0]
-                          : "You"}{" "}
-                        :{" "}
-                      </b>
+            {chats.map(
+              (chat) =>
+                chat.latestMessage && (
+                  <Box
+                    onClick={() => setSelectedChat(chat)}
+                    cursor="pointer"
+                    bg={selectedChat._id === chat._id ? "#38B2AC" : "#E8E8E8"}
+                    color={selectedChat._id === chat._id ? "white" : "black"}
+                    px={3}
+                    py={2}
+                    borderRadius="lg"
+                    display="flex"
+                    key={chat._id}
+                  >
+                    <ProfileModel user = {getSenderFull(user, chat.users)}>
+                    <Avatar
+                      mt="5px"
+                      mr={4}
+                      
+                      size="sm"
+                      cursor="pointer"
+                      name={getSender(user, chat.users)}
+                      src={getSenderFull(user, chat.users).pic}
+                    />
+                    </ProfileModel>
+                    <div style={{ width: "100%" }}>
+                      <Text>
+                        {!chat.isGroupChat
+                          ? getSender(loggedUser, chat.users)
+                          : chat.chatName}
+                      </Text>
+                      {chat.latestMessage && (
+                        <Box display="flex" justifyContent="space-between">
+                          <Text
+                            fontSize="xs"
+                            display="flex"
+                            justifyContent="space-between"
+                          >
+                            <b>
+                              {chat.latestMessage.sender._id !== user._id
+                                ? chat.latestMessage.sender.name.split(" ")[0]
+                                : "You"}{" "}
+                              :{" "}
+                            </b>
 
-                      {chat.latestMessage.content.length > 50
-                        ? chat.latestMessage.content.substring(0, 20) + "..."
-                        : chat.latestMessage.content}
-                    </Text>
-                    <Text fontWeight="extrabold" fontSize="10px">
-                      {add7hrs(chat.latestMessage.createdAt)}
-                    </Text>
+                            {chat.latestMessage.content.length > 50
+                              ? chat.latestMessage.content.substring(0, 20) +
+                                "..."
+                              : chat.latestMessage.content}
+                          </Text>
+                          <Text fontWeight="extrabold" fontSize="10px">
+                            {add7hrs(chat.latestMessage.createdAt)}
+                          </Text>
+                        </Box>
+                      )}
+                    </div>
                   </Box>
-                )}
-              </Box>
-            ))}
+                )
+            )}
           </Stack>
         ) : (
           <ChatLoading />
