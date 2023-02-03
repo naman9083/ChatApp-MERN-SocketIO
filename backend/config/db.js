@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+mongoose.set('strictQuery', true);
 require("dotenv").config();
 const uri = process.env.ATLAS_URI;
 const connectDB = async () => {
