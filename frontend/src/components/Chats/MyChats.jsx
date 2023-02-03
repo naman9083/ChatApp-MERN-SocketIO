@@ -100,8 +100,11 @@ const MyChats = ({ fetchAgain }) => {
                 chat.latestMessage && (
                   <Box
                     onClick={() => {
+                      if(selectedChatId !== chat._id)
+                      {
                       setSelectedChat(chat);
                       setSelectedChatId(chat._id);
+                      }
 
                     }}
                     cursor="pointer"
