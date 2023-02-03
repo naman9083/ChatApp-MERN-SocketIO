@@ -20,8 +20,8 @@ import animationData from "../animations/typing.json";
 import io from "socket.io-client";
 import "./UserItems/styles.css";
 // const ENDPOINT = "http://localhost:5000";
-
-const ENDPOINT = "https://tanz-chat-app.onrender.com";
+// import dotenv from "dotenv";
+const ENDPOINT = "https://tanz-a-tive.onrender.com";
 var socket, selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
