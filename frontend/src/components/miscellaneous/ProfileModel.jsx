@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-const ProfileModel = ({ user, children }) => {
+const ProfileModel = ({ user, children,isAdmin }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <div>
@@ -39,7 +39,7 @@ const ProfileModel = ({ user, children }) => {
               width="100%"
               style={{ whiteSpace: "nowrap" }}
             >
-              {user.name}
+              {user.name}{isAdmin ? " (Admin)" : ""}
             </ModalHeader>
           </Center>
           <ModalCloseButton />

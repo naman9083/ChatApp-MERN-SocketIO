@@ -116,7 +116,7 @@ const MyChats = ({ fetchAgain }) => {
                     display="flex"
                     key={chat._id}
                   >
-                   <ProfileModel user={chat.isGroupChat?chat.groupAdmin:getSenderFull(user, chat.users)}>
+                   <ProfileModel user={chat.isGroupChat?chat.groupAdmin:getSenderFull(user, chat.users)} isAdmin={chat.isGroupChat}>
                       <Avatar
                         mt="5px"
                         mr={4}

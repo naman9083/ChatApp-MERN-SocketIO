@@ -3,7 +3,6 @@ import React from "react";
 import "./messageStyle.css"
 import {
   add7hrs,
-  getSenderFull,
   isLastMessage,
   isSameSender,
   isSameSenderMargin,
@@ -13,7 +12,7 @@ import ScrollableFeed from "react-scrollable-feed";
 import { ChatState } from "../../Context/ChatProvider";
 import ProfileModel from "../miscellaneous/ProfileModel";
 const ScrollableChat = ({ messages }) => {
-  const { user,selectedChat } = ChatState();
+  const { user } = ChatState();
   return (
     <ScrollableFeed>
       {messages.map((m, i) => (
@@ -21,7 +20,7 @@ const ScrollableChat = ({ messages }) => {
           {(isSameSender(messages, m, i, user._id) ||
             isLastMessage(messages, i, user._id)) && (
             <Tooltip label={m.sender.name} placement="bottom-start" hasArrow>
-              <ProfileModel user = {getSenderFull(user, selectedChat.users)} >
+              <ProfileModel user = {m.sender} >
               <Avatar
                 mt="7px"
                 mr={1}
