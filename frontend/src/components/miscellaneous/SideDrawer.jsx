@@ -30,6 +30,7 @@ import axios from "axios";
 import ChatsLoading from "./ChatLoading";
 import UserListItem from "../UserItems/UserListItem";
 import { getSender } from "../../config/ChatsLogics";
+import UpdateProfileModal from "./UpdateProfileModal";
 const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -192,6 +193,10 @@ const SideDrawer = () => {
                 <ProfileModel user={user}>
                   <MenuItem>My Profile</MenuItem>
                 </ProfileModel>
+                <MenuDivider />
+                <UpdateProfileModal>
+                <MenuItem>Update Profile</MenuItem>
+                </UpdateProfileModal>
                 <MenuDivider />
                 <MenuItem onClick={logout}>Logout</MenuItem>
               </MenuList>

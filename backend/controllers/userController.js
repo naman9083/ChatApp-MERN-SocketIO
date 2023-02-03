@@ -1,6 +1,7 @@
 const expressAsyncHandler = require("express-async-handler");
 const generateToken = require("../config/generateToken");
 const User = require("../models/userModel");
+const bcrypt = require("bcryptjs");
 
 const register = expressAsyncHandler(async (req, res) => {
   const { name, email, password, pic } = req.body;
@@ -53,15 +54,36 @@ const authUser = expressAsyncHandler(async (req, res) => {
 const allUsers = expressAsyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
-        $or:[
-          {name:{$regex:req.query.search,$options:'i'}},
-          {email:{$regex:req.query.search,$options:'i'}}
-        ]
-
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
       }
     : {};
 
   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
   res.send(users);
 });
-module.exports = { register, authUser, allUsers };
+
+const updateUser = expressAsyncHandler(async (req, res) => {
+  const { password } = req.body;
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  const { _id } = req.body;
+  const updatedUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        name: req.body.name,
+        password: hashedPassword,
+        pic: req.body.pic,
+      },
+    },
+    { new: true }
+  );
+
+  res.send(updatedUser);
+});
+
+module.exports = { register, authUser, allUsers, updateUser };
