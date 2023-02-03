@@ -97,7 +97,7 @@ const MyChats = ({ fetchAgain }) => {
           <Stack overflowY="scroll">
             {chats.map(
               (chat) =>
-                chat.latestMessage && (
+                (chat.latestMessage ||chat.isGroupChat) && (
                   <Box
                     onClick={() => {
                       if(selectedChatId !== chat._id)
@@ -116,14 +116,14 @@ const MyChats = ({ fetchAgain }) => {
                     display="flex"
                     key={chat._id}
                   >
-                    <ProfileModel user={getSenderFull(user, chat.users)}>
+                   <ProfileModel user={chat.isGroupChat?chat.groupAdmin:getSenderFull(user, chat.users)}>
                       <Avatar
                         mt="5px"
                         mr={4}
                         size="sm"
                         cursor="pointer"
-                        name={getSender(user, chat.users)}
-                        src={getSenderFull(user, chat.users).pic}
+                        name={chat.isGroupChat?chat.groupAdmin.name:getSender(user, chat.users)}
+                        src={chat.isGroupChat?chat.groupAdmin.pic:getSenderFull(user, chat.users).pic}
                       />
                     </ProfileModel>
                     <div style={{ width: "100%" }}>
